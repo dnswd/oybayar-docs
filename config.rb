@@ -1,5 +1,5 @@
 # Unique header generation
-require './lib/oy_markdown_renderer.rb'
+require './lib/unique_head.rb'
 
 activate :i18n, :mount_at_root => :en, :langs => [:id, :en]
 activate :livereload
@@ -15,7 +15,7 @@ set :markdown,
     tables: true,
     with_toc_data: true,
     no_intra_emphasis: true,
-    renderer: OyMarkdownRenderer
+    renderer: UniqueHeadCounter
 
 # Assets
 set :css_dir, 'stylesheets'

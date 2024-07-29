@@ -1,15 +1,12 @@
+# Unique header generation
 require 'middleman-core/renderers/redcarpet'
 require 'digest'
-
-class OyMarkdownRenderer < Middleman::Renderers::MiddlemanRedcarpetHTML
-  
+class UniqueHeadCounter < Middleman::Renderers::MiddlemanRedcarpetHTML
   def initialize
     super
     @head_count = {}
     @previous = {}
   end
-
-  # Unique header generation
   def header(text, header_level)
     friendly_text = text.gsub(/<[^>]*>/,"").parameterize
     if(friendly_text.include? "release-")
@@ -57,14 +54,5 @@ class OyMarkdownRenderer < Middleman::Renderers::MiddlemanRedcarpetHTML
     else
       return "<h#{header_level} id='#{friendly_text}' type='normal'>#{text}</h#{header_level}>"
     end
-  end
-
-  # Reduce jumpy-ness when loading multiple images
-  def image(link, title, alt_text)
-    # 300x300 transparent svg for placeholder to keep overall structure intact
-    svg_placeholder = "data:image/svg+xml;base64,ICAgIDxzdmcgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICAgIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9Im5vbmUiIHN0cm9rZT0ibm9uZSIgLz4KICAgIDwvc3ZnPgo="
-
-    # lazy load image to reduce page jumps
-    return %{<img src="#{svg_placeholder}" data-src="#{link}" loading="lazy" class="lazyload" title="#{title}" alt="#{alt_text}">}
   end
 end
